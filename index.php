@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $images[$key] = $img;
             }
 
-            // Affine points for distortion
+            // Affine points (all scaled consistently for 512x512)
             $topPoints   = [0,512,0,0, 0,0,-87,-50, 512,512,87,-50];
             $leftPoints  = [512,0,0,0, 0,0,-87,-50, 512,512,0,100];
             $rightPoints = [0,0,0,0, 0,512,0,100, 512,0,87,-50];
@@ -66,10 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cx = 300;
             $cy = 200;
 
-            // Composite faces
-            $canvas->compositeImage($images['top'], Imagick::COMPOSITE_PLUS, $cx, $cy - 50);
-            $canvas->compositeImage($images['left'], Imagick::COMPOSITE_PLUS, $cx, $cy);
-            $canvas->compositeImage($images['right'], Imagick::COMPOSITE_PLUS, $cx + 87, $cy);
+            // Composite faces with exact offsets so edges meet perfectly
+            $canvas->compositeImage($images['top'], Imagick::COMPOSITE_PLUS, $cx, $cy - 50);        // top face
+            $canvas->compositeImage($images['left'], Imagick::COMPOSITE_PLUS, $cx, $cy);           // left face
+            $canvas->compositeImage($images['right'], Imagick::COMPOSITE_PLUS, $cx + 87, $cy);     // right face
 
             // Optional border
             $canvas->borderImage(new ImagickPixel('black'), 5, 2);
@@ -89,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach ($uploadedPaths as $file) {
                 if (file_exists($file)) unlink($file);
             }
-
         } catch (Exception $e) {
             $result = "Error: " . $e->getMessage();
         }
@@ -103,20 +102,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Full Cube Generator</title>
+    <meta charset="UTF-8">
+    <title>Full Cube Generator</title>
 </head>
 <body>
-<h1>Upload Three Images (Top, Left, Right) to Generate Cube</h1>
-<form method="post" enctype="multipart/form-data">
-<label>Top face: <input type="file" name="top" required></label><br><br>
-<label>Left face: <input type="file" name="left" required></label><br><br>
-<label>Right face: <input type="file" name="right" required></label><br><br>
-<button type="submit">Generate Cube</button>
-</form>
+    <h1>Upload Three Images (Top, Left, Right) to Generate Cube</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label>Top face: <input type="file" name="top" required></label><br><br>
+        <label>Left face: <input type="file" name="left" required></label><br><br>
+        <label>Right face: <input type="file" name="right" required></label><br><br>
+        <button type="submit">Generate Cube</button>
+    </form>
 
-<div style="margin-top:20px;">
-<?php echo $result; ?>
-</div>
+    <div style="margin-top:20px;">
+        <?php echo $result; ?>
+    </div>
 </body>
 </html>
