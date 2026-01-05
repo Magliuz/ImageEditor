@@ -1,121 +1,88 @@
-<?php
-if (!extension_loaded('imagick')) {
-    die("Imagick extension is not installed.");
-}
-
-$result = '';
-
-$uploadDir = __DIR__ . '/uploads/';
-$outputDir = __DIR__ . '/output/';
-
-// Ensure directories exist
-foreach ([$uploadDir, $outputDir] as $dir) {
-    if (!is_dir($dir)) mkdir($dir, 0775, true);
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_FILES['top'], $_FILES['left'], $_FILES['right'])) {
-
-        $faces = ['top' => $_FILES['top'], 'left' => $_FILES['left'], 'right' => $_FILES['right']];
-        $uploadedPaths = [];
-
-        try {
-            // Move uploaded files and check for errors
-            foreach ($faces as $key => $file) {
-                if ($file['error'] !== UPLOAD_ERR_OK) {
-                    throw new Exception("Error uploading {$key} image. Code: {$file['error']}");
-                }
-
-                $path = $uploadDir . basename($file['name']);
-                if (!move_uploaded_file($file['tmp_name'], $path)) {
-                    throw new Exception("Failed to move {$key} image to uploads folder.");
-                }
-
-                $uploadedPaths[$key] = $path;
-            }
-
-            // Load, crop, resize, and set transparency
-            $images = [];
-            foreach ($uploadedPaths as $key => $file) {
-                $img = new Imagick($file);
-                $img->setImageAlphaChannel(Imagick::ALPHACHANNEL_SET);
-                $img->setImageVirtualPixelMethod(Imagick::VIRTUALPIXELMETHOD_TRANSPARENT);
-
-                $w = $img->getImageWidth();
-                $h = $img->getImageHeight();
-                $size = min($w, $h);
-                $img->cropImage($size, $size, ($w - $size)/2, ($h - $size)/2);
-                $img->resizeImage(512, 512, Imagick::FILTER_LANCZOS, 1);
-
-                $images[$key] = $img;
-            }
-
-            // Affine points (all scaled consistently for 512x512)
-            $topPoints   = [0,512,0,0, 0,0,-87,-50, 512,512,87,-50];
-            $leftPoints  = [512,0,0,0, 0,0,-87,-50, 512,512,0,100];
-            $rightPoints = [0,0,0,0, 0,512,0,100, 512,0,87,-50];
-
-            $images['top']->distortImage(Imagick::DISTORTION_AFFINE, $topPoints, true);
-            $images['left']->distortImage(Imagick::DISTORTION_AFFINE, $leftPoints, true);
-            $images['right']->distortImage(Imagick::DISTORTION_AFFINE, $rightPoints, true);
-
-            // Canvas
-            $canvas = new Imagick();
-            $canvas->newImage(800, 600, new ImagickPixel('none'));
-
-            $cx = 300;
-            $cy = 200;
-
-            // Composite faces with exact offsets so edges meet perfectly
-            $canvas->compositeImage($images['top'], Imagick::COMPOSITE_PLUS, $cx, $cy - 50);        // top face
-            $canvas->compositeImage($images['left'], Imagick::COMPOSITE_PLUS, $cx, $cy);           // left face
-            $canvas->compositeImage($images['right'], Imagick::COMPOSITE_PLUS, $cx + 87, $cy);     // right face
-
-            // Optional border
-            $canvas->borderImage(new ImagickPixel('black'), 5, 2);
-
-            // Save output
-            $outputFile = $outputDir . 'cube_full.png';
-            $canvas->setImageFormat('png');
-            $canvas->writeImage($outputFile);
-
-            $result = "Full isometric cube generated!<br><img src='output/cube_full.png' style='max-width:400px;'>";
-
-            // Cleanup
-            foreach ($images as $img) $img->clear();
-            $canvas->clear();
-
-            // Delete uploaded files
-            foreach ($uploadedPaths as $file) {
-                if (file_exists($file)) unlink($file);
-            }
-        } catch (Exception $e) {
-            $result = "Error: " . $e->getMessage();
-        }
-
-    } else {
-        $result = "Please upload all three images.";
-    }
-}
-?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Full Cube Generator</title>
-</head>
-<body>
-    <h1>Upload Three Images (Top, Left, Right) to Generate Cube</h1>
-    <form method="post" enctype="multipart/form-data">
-        <label>Top face: <input type="file" name="top" required></label><br><br>
-        <label>Left face: <input type="file" name="left" required></label><br><br>
-        <label>Right face: <input type="file" name="right" required></label><br><br>
-        <button type="submit">Generate Cube</button>
-    </form>
+<meta charset="UTF-8">
+<title>Modifica Immagini</title>
+<style>
+body{
+    color: #112D4E;
+    background-color: #F9F7F7;
+}
+h1{
+    text-align: center;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    font-size: 2.5rem;
+    width: 80%;
+    text-shadow: 2px 2px 3px #112D4E44;
+}
+.input_img{
+    margin: 0 auto;
+    text-align: center;
+    width: 50%;
+    padding: 2rem;
+    cursor: pointer;
+}
+.filtri{
+    padding: 2rem;
+    place-content: center;
+    font-weight: bold;
+    display: grid;
+    font-size: 1.25rem;
+}
 
-    <div style="margin-top:20px;">
-        <?php echo $result; ?>
+.radiof{
+    padding: 0.25rem;
+}
+
+.input_img, input[type="submit"]{
+    font-size: 1.25rem;
+    color: #112D4E;
+    background-color: #DBE2EF;
+    border-radius: 15px;
+    box-shadow: 5px 5px 20px #112D4E88;
+    border: 2px solid #112D4E44;
+    transition: .1s;
+}
+
+.input_img:hover, input[type="submit"]:hover{
+    background-color: #3F72AF88;
+    border: 2px solid #112D4E44;
+    transition: .1s;
+}
+
+input[type="submit"]{
+    padding: 0.75rem;
+}
+</style>
+<body>
+    <h1>Carica un'immagine e scegli il filtro da applicare</h1>
+    <form action="modifica.php" method="POST" enctype="multipart/form-data">
+    <label for="immagine"><div class="input_img">
+        <span id="testo">Scegli l'immagine da caricare</span>
+        <input type="file" accept="image/*" id="immagine" name="immagine" hidden>
+    </div></label>
+    <div class="filtri">
+    <label class="radiof">
+        <input type="radio" name="opzioni" value="bianconero"> Bianco e nero
+    </label>
+    <label class="radiof">
+        <input type="radio" name="opzioni" value="luminosita"> Luminosità
+    </label>
     </div>
+    <div class="invio" style="text-align: center">
+        <input type="submit" value="Applica filtro">
+    </div>
+
+
+    </form>
+    <script>
+    const input = document.querySelector("input[type=file]");
+    const testo = document.getElementById("testo");
+    input.addEventListener("change", updateImage);
+    function updateImage(){
+        testo.textContent = input.files[0].name;
+    }
+    </script>
 </body>
 </html>
