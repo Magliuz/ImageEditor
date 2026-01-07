@@ -64,10 +64,10 @@ input[type="submit"]{
     </div></label>
     <div class="filtri">
     <label class="radiof">
-        <input type="radio" name="filtro" value="bianconero"> Bianco e nero
+        <input type="radio" name="filtro" value="bianconero" checked> Bianco e nero
     </label>
     <label class="radiof">
-        <input type="radio" name="filtro" value="luminosita"> Luminosità
+        <input type="radio" name="filtro" value="luminosita"> Luminosità e contrasto
     </label>
     <label class="radiof">
         <input type="radio" name="filtro" value="inverticolori"> Inverti colori

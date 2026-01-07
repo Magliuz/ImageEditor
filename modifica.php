@@ -1,10 +1,18 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set('display_errors',1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+    if(isset($_FILES['immagine']) && $_FILES['immagine']['error'] == 4){
+        header("Location: index.php");
+    }
     include "filtriUI.php";
-    move_uploaded_file($_FILES['immagine']['tmp_name'], "./uploads/" . $_FILES['immagine']['name']);
-    $posizioneimg = "./uploads/" . $_FILES['immagine']['name'];
+    if(!isset($_POST['ricarica'])){
+        move_uploaded_file($_FILES['immagine']['tmp_name'], "./uploads/" . $_FILES['immagine']['name']);
+        $posizioneimg = "./uploads/" . $_FILES['immagine']['name'];
+    }else{
+        $posizioneimg = $_POST['posimg'];
+    }
     $scelta = $_POST['filtro'];
+
 ?>
 <html lang="it">
 <head>
@@ -43,6 +51,43 @@ td, th{
 
 img{
     width: 100%;
+}
+
+.filtri{
+    padding: 2rem;
+    place-content: center;
+    font-weight: bold;
+    display: grid;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+}
+
+input[type="range"]{
+    width: 100%;
+}
+
+form{
+    text-align: center;
+}
+
+input[type="submit"]{
+    font-size: 1.25rem;
+    color: #112D4E;
+    background-color: #DBE2EF;
+    border-radius: 15px;
+    box-shadow: 5px 5px 20px #112D4E88;
+    border: 2px solid #112D4E44;
+    transition: .1s;
+}
+
+input[type="submit"]:hover{
+    background-color: #3F72AF88;
+    border: 2px solid #112D4E44;
+    transition: .1s;
+}
+
+input[type="submit"]{
+    padding: 0.75rem;
 }
 </style>
 <body>

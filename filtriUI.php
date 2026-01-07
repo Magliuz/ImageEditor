@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
     include "filtri.php";
 
     function tabellaimg($posizioneimg, $posizionemod){
@@ -14,7 +17,26 @@
     }
 
     function luminosita($posizioneimg){
-        echo "Caio";
+        $lum = $_POST['lum'] ?? 0;
+        $cont = $_POST['cont'] ?? 0;
+        echo "<h1>Luminosità e Contrasto</h1>";
+        $posizionemod = luminositaIMG($posizioneimg, $lum, $cont);
+        tabellaimg($posizioneimg, $posizionemod);
+        echo "
+            <form action='$_SERVER[PHP_SELF]' method='POST'>
+                <div class='filtri'>
+                <label>
+                Luminosità <input type='range' value=$lum min=-100 max=100 name='lum'>
+                </label><br>
+                <label>
+                Contrasto <input type='range' value=$cont min=-100 max=100 name='cont'>
+                </label>
+                </div>
+                <input type='hidden' name='filtro' value='luminosita'>
+                <input type='hidden' name='posimg' value='$posizioneimg'>
+                <input type='submit' value='Applica' name='ricarica'>
+            </form>
+        ";
     }
 
     function inverticolori($posizioneimg){
