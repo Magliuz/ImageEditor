@@ -1,37 +1,45 @@
 <?php
     function bianconeroIMG($img){
-        $originale = new Imagick($img);
-        $modificata = clone $originale;
+        $modificata = creaCopia($img);
         $modificata->setImageColorspace(Imagick::COLORSPACE_GRAY);
-        $pathInfo = pathinfo($img);
-        $nuovoPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '_bn.' . $pathInfo['extension'];
-        $modificata->writeImage($nuovoPath);
-        $originale->clear();
-        $modificata->clear();
-        return $nuovoPath;
+        return creaModificata($img, $modificata);
     }
 
     function luminositaIMG($img, $valoreL = 0, $valoreC = 0){
-        $originale = new Imagick($img);
-        $modificata = clone $originale;
+        $modificata = creaCopia($img);
         $modificata->brightnessContrastImage($valoreL, $valoreC, imagick::CHANNEL_RED | imagick::CHANNEL_GREEN | imagick::CHANNEL_BLUE);
-        $pathInfo = pathinfo($img);
-        $nuovoPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '_bn.' . $pathInfo['extension'];
-        $modificata->writeImage($nuovoPath);
-        $originale->clear();
-        $modificata->clear();
-        return $nuovoPath;
+        return creaModificata($img, $modificata);
+    }
+
+    function nitidezzaIMG($img, $sigma = 0){
+        $modificata = creaCopia($img);
+        $modificata->sharpenimage(0, $sigma, imagick::CHANNEL_RED | imagick::CHANNEL_GREEN | imagick::CHANNEL_BLUE);
+        return creaModificata($img, $modificata);
+    }
+
+    function sfocaturaIMG($img, $sigma = 0){
+        $modificata = creaCopia($img);
+        $modificata->blurImage(0, $sigma);
+        return creaModificata($img, $modificata);
     }
 
     function inverticoloriIMG($img){
-        $originale = new Imagick($img);
-        $modificata = clone $originale;
+        $modificata = creaCopia($img);
         $modificata->negateImage(false, imagick::CHANNEL_RED | imagick::CHANNEL_GREEN | imagick::CHANNEL_BLUE);
+        return creaModificata($img, $modificata);
+    }
+
+
+    function creaCopia($img){
+        $originale = new Imagick($img);
+        return clone $originale;
+    }
+
+    function creaModificata($img, $modificata){
         $pathInfo = pathinfo($img);
-        $nuovoPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '_inv.' . $pathInfo['extension'];
+        $nuovoPath = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . '_mod.' . $pathInfo['extension'];
         $modificata->writeImage($nuovoPath);
-        $originale->clear();
-        $modificata->clear();
         return $nuovoPath;
     }
+
 ?>

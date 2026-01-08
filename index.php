@@ -70,6 +70,12 @@ input[type="submit"]{
         <input type="radio" name="filtro" value="luminosita"> Luminosità e contrasto
     </label>
     <label class="radiof">
+        <input type="radio" name="filtro" value="nitidezza"> Nitidezza
+    </label>
+    <label class="radiof">
+        <input type="radio" name="filtro" value="sfocatura"> Sfocatura
+    </label>
+    <label class="radiof">
         <input type="radio" name="filtro" value="inverticolori"> Inverti colori
     </label>
     </div>

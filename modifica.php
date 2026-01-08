@@ -98,9 +98,14 @@ input[type="submit"]{
             break;
         case "luminosita": luminosita($posizioneimg);
             break;
+        case "nitidezza": nitidezza($posizioneimg);
+            break;
+        case "sfocatura": sfocatura($posizioneimg);
+            break;
         case "inverticolori": inverticolori($posizioneimg);
             break;
     }
 ?>
+<a href="index.php">Home</a>
 </body>
 </html>
