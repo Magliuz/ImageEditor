@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
     if(isset($_FILES['immagine']) && $_FILES['immagine']['error'] == 4){
         header("Location: index.php");
     }
@@ -20,6 +20,7 @@ ini_set('display_errors', 1);
 <title>Modifica Immagini</title>
 <style>
 body{
+       text-align: center;
     color: #112D4E;
     background-color: #F9F7F7;
 }
@@ -89,6 +90,11 @@ input[type="submit"]:hover{
 input[type="submit"]{
     padding: 0.75rem;
 }
+
+a{
+    margin: 0 auto;
+    font-size: 1.5rem;
+}
 </style>
 <body>
 
@@ -104,8 +110,13 @@ input[type="submit"]{
             break;
         case "inverticolori": inverticolori($posizioneimg);
             break;
+        case "bordi": bordi($posizioneimg);
+            break;
+        case "pixel": pixel($posizioneimg);
+            break;
     }
 ?>
+<br><br>
 <a href="index.php">Home</a>
 </body>
 </html>

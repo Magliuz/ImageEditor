@@ -82,4 +82,29 @@ ini_set('display_errors', 1);
         $posizionemod = inverticoloriIMG($posizioneimg);
         tabellaimg($posizioneimg, $posizionemod);
     }
+
+    function bordi($posizioneimg){
+        echo "<h1>Bordi</h1>";
+        $posizionemod = bordiIMG($posizioneimg);
+        tabellaimg($posizioneimg, $posizionemod);
+    }
+
+    function pixel($posizioneimg){
+         $pix = $_POST['pix'] ?? 10;
+        echo "<h1>Pixel</h1>";
+        $posizionemod = pixelIMG($posizioneimg, $pix);
+        tabellaimg($posizioneimg, $posizionemod);
+        echo "
+        <form action='$_SERVER[PHP_SELF]' method='POST'>
+        <div class='filtri'>
+        <label>
+        Dimensione pixels <input type='range' value=$pix min=1 max=50 name='pix'>
+        </label><br>
+        </div>
+        <input type='hidden' name='filtro' value='pixel'>
+        <input type='hidden' name='posimg' value='$posizioneimg'>
+        <input type='submit' value='Applica' name='ricarica'>
+        </form>
+        ";
+    }
 ?>

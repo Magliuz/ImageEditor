@@ -29,6 +29,21 @@
         return creaModificata($img, $modificata);
     }
 
+    function bordiIMG($img){
+        $modificata = creaCopia($img);
+        $modificata->setImageColorspace(Imagick::COLORSPACE_GRAY);
+        $modificata->edgeImage(0);
+        return creaModificata($img, $modificata);
+    }
+
+    function pixelIMG($img, $pixelsize = 10){
+        $modificata = creaCopia($img);
+        $width  = $modificata->getImageWidth();
+        $height = $modificata->getImageHeight();
+        $modificata->scaleImage((int)($width / $pixelsize), (int)($height / $pixelsize));
+        $modificata->scaleImage($width, $height);
+        return creaModificata($img, $modificata);
+    }
 
     function creaCopia($img){
         $originale = new Imagick($img);
