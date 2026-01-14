@@ -82,6 +82,9 @@ input[type="submit"]{
         <input type="radio" name="filtro" value="inverticolori"> Inverti colori
     </label>
     <label class="radiof">
+        <input type="radio" name="filtro" value="riducicolori"> Riduci colori
+    </label>
+    <label class="radiof">
         <input type="radio" name="filtro" value="bordi"> Bordi immagine
     </label>
     <label class="radiof">

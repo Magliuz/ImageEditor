@@ -112,6 +112,8 @@ a{
             break;
         case "inverticolori": inverticolori($posizioneimg);
             break;
+        case "riducicolori": riducicolori($posizioneimg);
+            break;
         case "bordi": bordi($posizioneimg);
             break;
         case "pixel": pixel($posizioneimg);

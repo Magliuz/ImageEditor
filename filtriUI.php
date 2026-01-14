@@ -111,15 +111,15 @@ ini_set('display_errors', 1);
     }
 
     function riducicolori($posizioneimg){
-        $ncolori = $_POST['ncol'] ?? 0;
+        $ncolori = $_POST['ncol'] ?? 16;
         echo "<h1>Riduci colori</h1>";
-        $posizionemod = sfocaturaIMG($posizioneimg, $ncolori);
+        $posizionemod = riducicoloriIMG($posizioneimg, $ncolori);
         tabellaimg($posizioneimg, $posizionemod);
         echo "
         <form action='$_SERVER[PHP_SELF]' method='POST'>
         <div class='filtri'>
         <label>
-        Numero di colori <input type='range' value=$ncolori min=0 max=256 step=4 name='ncol'>
+        Numero di colori: $ncolori <input type='range' value=$ncolori min=2 max=64 step=2 name='ncol'>
         </label><br>
         </div>
         <input type='hidden' name='filtro' value='riducicolori'>
