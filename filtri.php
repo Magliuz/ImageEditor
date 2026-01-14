@@ -60,7 +60,7 @@ ini_set('display_errors', 1);
         $modificata = creaCopia($img);
         $width  = $modificata->getImageWidth();
         $height = $modificata->getImageHeight();
-        $modificata->scaleImage((int)($width / $pixelsize), (int)($height / $pixelsize));
+        $modificata->scaleImage(max(1, (int)($width / $pixelsize)), max(1, (int)($height / $pixelsize)));
         $modificata->scaleImage($width, $height);
         return creaModificata($img, $modificata);
     }

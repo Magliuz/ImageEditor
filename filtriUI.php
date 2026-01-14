@@ -26,10 +26,10 @@ ini_set('display_errors', 1);
         <form action='$_SERVER[PHP_SELF]' method='POST'>
         <div class='filtri'>
         <label>
-        Luminosità <input type='range' value=$lum min=-100 max=100 name='lum'>
+        Luminosità: $lum <input type='range' value=$lum min=-100 max=100 name='lum'>
         </label><br>
         <label>
-        Contrasto <input type='range' value=$cont min=-100 max=100 name='cont'>
+        Contrasto: $cont <input type='range' value=$cont min=-100 max=100 name='cont'>
         </label>
         </div>
         <input type='hidden' name='filtro' value='luminosita'>
@@ -50,7 +50,7 @@ ini_set('display_errors', 1);
         <form action='$_SERVER[PHP_SELF]' method='POST'>
         <div class='filtri'>
         <label>
-        Gradi <input type='range' value=$gradi min=0 max=360 step=45 name='gradi'>
+        Gradi: $gradi <input type='range' value=$gradi min=0 max=360 step=45 name='gradi'>
         </label><br>
         <label>
         Specchia orizzontalmente <input type='checkbox' value='o' name='sO' ".($sO ? 'checked' : ''). ">
@@ -75,7 +75,7 @@ ini_set('display_errors', 1);
         <form action='$_SERVER[PHP_SELF]' method='POST'>
         <div class='filtri'>
         <label>
-        Nitidezza <input type='range' value=$sigma min=0 max=5 step=0.2 name='sigma'>
+        Nitidezza: $sigma <input type='range' value=$sigma min=0 max=5 step=0.2 name='sigma'>
         </label><br>
         </div>
         <input type='hidden' name='filtro' value='nitidezza'>
@@ -94,7 +94,7 @@ ini_set('display_errors', 1);
         <form action='$_SERVER[PHP_SELF]' method='POST'>
         <div class='filtri'>
         <label>
-        Sfocatura <input type='range' value=$sigma min=0 max=10 step=0.2 name='sigma'>
+        Sfocatura: $sigma <input type='range' value=$sigma min=0 max=10 step=0.2 name='sigma'>
         </label><br>
         </div>
         <input type='hidden' name='filtro' value='sfocatura'>
@@ -144,7 +144,7 @@ ini_set('display_errors', 1);
         <form action='$_SERVER[PHP_SELF]' method='POST'>
         <div class='filtri'>
         <label>
-        Dimensione pixels <input type='range' value=$pix min=1 max=50 name='pix'>
+        Dimensione pixels: $pix <input type='range' value=$pix min=1 max=50 name='pix'>
         </label><br>
         </div>
         <input type='hidden' name='filtro' value='pixel'>
