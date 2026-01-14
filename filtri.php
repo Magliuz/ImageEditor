@@ -43,6 +43,12 @@ ini_set('display_errors', 1);
         return creaModificata($img, $modificata);
     }
 
+    function riducicoloriIMG($img, $ncolori = 8){
+        $modificata = creaCopia($img);
+         $modificata->quantizeImage($ncolori, Imagick::COLORSPACE_SRGB, 0, false, false);
+        return creaModificata($img, $modificata);
+    }
+
     function bordiIMG($img){
         $modificata = creaCopia($img);
         $modificata->setImageColorspace(Imagick::COLORSPACE_GRAY);

@@ -105,9 +105,28 @@ ini_set('display_errors', 1);
     }
 
     function inverticolori($posizioneimg){
-        echo "<h1>Bianco e Nero</h1>";
+        echo "<h1>Inverti colori</h1>";
         $posizionemod = inverticoloriIMG($posizioneimg);
         tabellaimg($posizioneimg, $posizionemod);
+    }
+
+    function riducicolori($posizioneimg){
+        $ncolori = $_POST['ncol'] ?? 0;
+        echo "<h1>Riduci colori</h1>";
+        $posizionemod = sfocaturaIMG($posizioneimg, $ncolori);
+        tabellaimg($posizioneimg, $posizionemod);
+        echo "
+        <form action='$_SERVER[PHP_SELF]' method='POST'>
+        <div class='filtri'>
+        <label>
+        Numero di colori <input type='range' value=$ncolori min=0 max=256 step=4 name='ncol'>
+        </label><br>
+        </div>
+        <input type='hidden' name='filtro' value='riducicolori'>
+        <input type='hidden' name='posimg' value='$posizioneimg'>
+        <input type='submit' value='Applica' name='ricarica'>
+        </form>
+        ";
     }
 
     function bordi($posizioneimg){
