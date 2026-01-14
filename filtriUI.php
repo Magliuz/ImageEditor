@@ -39,6 +39,33 @@ ini_set('display_errors', 1);
         ";
     }
 
+    function ruota($posizioneimg){
+        $gradi = $_POST['gradi'] ?? 0;
+        $sO = isset($_POST['sO']);
+        $sV = isset($_POST['sV']);
+        echo "<h1>Ruota e Specchia</h1>";
+        $posizionemod = ruotaIMG($posizioneimg, $gradi, $sO, $sV);
+        tabellaimg($posizioneimg, $posizionemod);
+        echo "
+        <form action='$_SERVER[PHP_SELF]' method='POST'>
+        <div class='filtri'>
+        <label>
+        Gradi <input type='range' value=$gradi min=0 max=360 step=45 name='gradi'>
+        </label><br>
+        <label>
+        Specchia orizzontalmente <input type='checkbox' value='o' name='sO' ".($sO ? 'checked' : ''). ">
+        </label>
+        <label>
+        Specchia verticalmente <input type='checkbox' value='v' name='sV'  ".($sV ? 'checked' : ''). ">
+        </label>
+        </div>
+        <input type='hidden' name='filtro' value='ruota'>
+        <input type='hidden' name='posimg' value='$posizioneimg'>
+        <input type='submit' value='Applica' name='ricarica'>
+        </form>
+        ";
+    }
+
     function nitidezza($posizioneimg){
         $sigma = $_POST['sigma'] ?? 0;
         echo "<h1>Nitidezza</h1>";

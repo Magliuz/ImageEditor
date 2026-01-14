@@ -104,6 +104,8 @@ a{
             break;
         case "luminosita": luminosita($posizioneimg);
             break;
+        case "ruota": ruota($posizioneimg);
+            break;
         case "nitidezza": nitidezza($posizioneimg);
             break;
         case "sfocatura": sfocatura($posizioneimg);

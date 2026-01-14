@@ -70,6 +70,9 @@ input[type="submit"]{
         <input type="radio" name="filtro" value="luminosita"> Luminosità e contrasto
     </label>
     <label class="radiof">
+        <input type="radio" name="filtro" value="ruota"> Ruota e specchia
+    </label>
+    <label class="radiof">
         <input type="radio" name="filtro" value="nitidezza"> Nitidezza
     </label>
     <label class="radiof">
