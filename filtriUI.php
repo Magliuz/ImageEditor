@@ -2,7 +2,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-    include "filtri.php";
+    if (extension_loaded('imagick')){
+        include "filtri_Imagick.php";
+    }else {
+        include "filtri_GD.php";
+    }
+
 
     function tabellaimg($posizioneimg, $posizionemod){
         echo "<table>
