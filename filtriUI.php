@@ -1,8 +1,8 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-    if (extension_loaded('imagick')){
+    define('IS_IMAGICK', extension_loaded('imagick'));
+    if (IS_IMAGICK){
         include "filtri_Imagick.php";
     }else {
         include "filtri_GD.php";
@@ -76,18 +76,20 @@ ini_set('display_errors', 1);
         echo "<h1>Nitidezza</h1>";
         $posizionemod = nitidezzaIMG($posizioneimg, $sigma);
         tabellaimg($posizioneimg, $posizionemod);
-        echo "
-        <form action='$_SERVER[PHP_SELF]' method='POST'>
-        <div class='filtri'>
-        <label>
-        Nitidezza: $sigma <input type='range' value=$sigma min=0 max=5 step=0.2 name='sigma'>
-        </label><br>
-        </div>
-        <input type='hidden' name='filtro' value='nitidezza'>
-        <input type='hidden' name='posimg' value='$posizioneimg'>
-        <input type='submit' value='Applica' name='ricarica'>
-        </form>
-        ";
+        if (IS_IMAGICK){
+            echo "
+            <form action='$_SERVER[PHP_SELF]' method='POST'>
+            <div class='filtri'>
+            <label>
+                Nitidezza: $sigma <input type='range' value=$sigma min=0 max=5 step=0.2 name='sigma'>
+            </label><br>
+            </div>
+            <input type='hidden' name='filtro' value='nitidezza'>
+            <input type='hidden' name='posimg' value='$posizioneimg'>
+            <input type='submit' value='Applica' name='ricarica'>
+            </form>
+            ";
+        }
     }
 
     function sfocatura($posizioneimg){
@@ -117,8 +119,9 @@ ini_set('display_errors', 1);
 
     function riducicolori($posizioneimg){
         $ncolori = $_POST['ncol'] ?? 16;
+        $dt = isset($_POST['dt']);
         echo "<h1>Riduci colori</h1>";
-        $posizionemod = riducicoloriIMG($posizioneimg, $ncolori);
+        $posizionemod = riducicoloriIMG($posizioneimg, $dt, $ncolori);
         tabellaimg($posizioneimg, $posizionemod);
         echo "
         <form action='$_SERVER[PHP_SELF]' method='POST'>
@@ -126,6 +129,9 @@ ini_set('display_errors', 1);
         <label>
         Numero di colori: $ncolori <input type='range' value=$ncolori min=2 max=64 step=2 name='ncol'>
         </label><br>
+        <label>
+        Dithering <input type='checkbox' value='dt' name='dt' ".($dt ? 'checked' : ''). ">
+        </label>
         </div>
         <input type='hidden' name='filtro' value='riducicolori'>
         <input type='hidden' name='posimg' value='$posizioneimg'>

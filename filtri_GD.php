@@ -36,13 +36,14 @@ function ruotaIMG($img, $gradiInt, $sO, $sV) {
 
 function nitidezzaIMG($img, $sigma = 1) {
     $im = creaCopia($img);
-    $matrix = [
-        [-1, -1, -1],
-        [-1, 16 + $sigma, -1],
-        [-1, -1, -1]
-    ];
-    imageconvolution($im, $matrix, 8 + $sigma, 0);
-    return creaModificata($img, $im);
+    $sharpen = array(
+        array(0.0, -1.0, 0.0),
+        array(-1.0, 5.0, -1.0),
+        array(0.0, -1.0, 0.0)
+        );
+        $divisor = array_sum(array_map('array_sum', $sharpen));
+        imageconvolution($im, $sharpen, $divisor, 0);
+        return creaModificata($img, $im);
 }
 
 function sfocaturaIMG($img, $sigma = 1) {
@@ -59,9 +60,9 @@ function inverticoloriIMG($img) {
     return creaModificata($img, $im);
 }
 
-function riducicoloriIMG($img, $ncolori = 8) {
+function riducicoloriIMG($img, $dt = true, $ncolori = 8) {
     $im = creaCopia($img);
-    imagetruecolortopalette($im, true, $ncolori);
+    imagetruecolortopalette($im, $dt, $ncolori);
     return creaModificata($img, $im);
 }
 
@@ -69,19 +70,18 @@ function bordiIMG($img) {
     $im = creaCopia($img);
     imagefilter($im, IMG_FILTER_GRAYSCALE);
     imagefilter($im, IMG_FILTER_EDGEDETECT);
+    imagefilter($im, IMG_FILTER_CONTRAST, -80);
+    imagefilter($im, IMG_FILTER_BRIGHTNESS, 40);
     return creaModificata($img, $im);
 }
 
 function pixelIMG($img, $pixelsize = 10) {
     $im = creaCopia($img);
-    $w = imagesx($im);
-    $h = imagesy($im);
+    $width = imagesx($im);
+    $height = imagesy($im);
 
-    $tmp = imagecreatetruecolor($w / $pixelsize, $h / $pixelsize);
-    imagecopyresized($tmp, $im, 0, 0, 0, 0, $w / $pixelsize, $h / $pixelsize, $w, $h);
-
-    imagecopyresized($im, $tmp, 0, 0, 0, 0, $w, $h, $w / $pixelsize, $h / $pixelsize);
-    imagedestroy($tmp);
+    $im = imagescale($im, max(1, (int)($width / $pixelsize)), max(1, (int)($height / $pixelsize)), IMG_NEAREST_NEIGHBOUR);
+    $im = imagescale($im, $width, $height, IMG_NEAREST_NEIGHBOUR);
 
     return creaModificata($img, $im);
 }

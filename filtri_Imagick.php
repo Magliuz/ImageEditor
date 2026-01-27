@@ -43,9 +43,9 @@ ini_set('display_errors', 1);
         return creaModificata($img, $modificata);
     }
 
-    function riducicoloriIMG($img, $ncolori = 8){
+    function riducicoloriIMG($img, $dt = true, $ncolori = 8){
         $modificata = creaCopia($img);
-         $modificata->quantizeImage($ncolori, Imagick::COLORSPACE_SRGB, 0, false, false);
+        $modificata->quantizeImage($ncolori, Imagick::COLORSPACE_SRGB, 0, !$dt, false);
         return creaModificata($img, $modificata);
     }
 
