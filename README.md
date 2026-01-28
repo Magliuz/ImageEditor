@@ -40,3 +40,4 @@ GD è l'estensione inclusa in Xampp. Se si utilizza un server su cui è installa
 * Non si possono applicare più filtri di seguito a una immagine.
 * Ogni volta che si torna alla lista di filtri bisogna scegliere di nuovo il file.
 * Il valore sopra gli slider non si aggiorna nel movere lo slider ma mantiene quello dell'ultima modifica.
+* Alcune filtri funzionano meglio con una estensione che con l'altra.
