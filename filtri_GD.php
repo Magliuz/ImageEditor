@@ -2,10 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
-
-/* ===== Effetti ===== */
-
 function bianconeroIMG($img) {
     $im = creaCopia($img);
     imagefilter($im, IMG_FILTER_GRAYSCALE);
