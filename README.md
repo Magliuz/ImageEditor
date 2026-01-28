@@ -1,6 +1,6 @@
 # ImageEditor
 
-Editor di immagini in PHP che permette di caricare un'immagine e applicare vari filtri. Il progetto utilizza l'estensione Imagick, o in sua assenza GD, per l'elaborazione delle immagini.
+Editor di immagini in PHP che permette di caricare un'immagine e applicare vari filtri. Il progetto utilizza l'estensione Imagick (o in sua assenza GD) per l'elaborazione delle immagini.
 
 ## Funzionalità
 
@@ -21,8 +21,8 @@ Editor di immagini in PHP che permette di caricare un'immagine e applicare vari 
 3. Selezionare un filtro da applicare.
 4. Cliccare il pulsante "Applica filtro".
 5. Modificare eventuali parametri a piacimento e poi applicarli
-6. Scaricare l'immagine con: "tasto destro" -> "Salva Immagine"
-7. Tornare alla lista cliccando il link `Home`.
+6. Scaricare l'immagine con: "Tasto Destro" -> "Salva Immagine"
+7. Tornare alla lista di filtri cliccando il link `Home`.
 
 
 ## Requisiti
@@ -31,7 +31,7 @@ Editor di immagini in PHP che permette di caricare un'immagine e applicare vari 
 *  Estensione GD o Imagick per PHP.
 *  Creazione di una cartella `uploads`
 
-GD è l'estensione inclusa in Xampp. Se si utilizza un server su cui è installata l'estensione Imagick allora il programma utilizzerà quella.
+GD è l'estensione inclusa in Xampp. Se si utilizza un server su cui è installata l'estensione Imagick allora il programma utilizzerà quella. Il rilevamento dell'estensione avviene in automatico.
 
 
 ## Limitazioni del programma
@@ -40,4 +40,4 @@ GD è l'estensione inclusa in Xampp. Se si utilizza un server su cui è installa
 * Non si possono applicare più filtri di seguito a una immagine.
 * Ogni volta che si torna alla lista di filtri bisogna scegliere di nuovo il file.
 * Il valore sopra gli slider non si aggiorna nel movere lo slider ma mantiene quello dell'ultima modifica.
-* Alcune filtri funzionano meglio con una estensione che con l'altra.
+* Alcuni filtri funzionano meglio con una estensione che con l'altra.
